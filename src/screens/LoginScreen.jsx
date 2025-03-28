@@ -14,8 +14,8 @@ export default function Login() {
 
     if (emailStr== email && passStr == password) {
       localStorage.setItem("loggedIn", true);
-      // navigate("/home");
-      navigate("/servicesDashboard");
+      navigate("/postApi");
+      // navigate("/servicesDashboard");
     } else {
       alert("Invalid credentials");
     }
