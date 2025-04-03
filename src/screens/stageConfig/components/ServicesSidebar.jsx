@@ -14,7 +14,7 @@ export default function ServicesSidebar({ services }) {
         Services
       </Text>
       <Text fontSize="sm" mb={4} textAlign="center" opacity="0.8">
-        Drag services to stages (you can add any service multiple times)
+        Drag services to stages 
       </Text>
       <Box flex="1" overflowY="auto" pr={2}
         css={{

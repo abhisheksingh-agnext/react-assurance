@@ -62,8 +62,8 @@ const StageCard = ({ stage, isActive, onMapClick }) => (
     >
       <Flex
        bgGradient={isActive 
-        ? "linear(to-r, green.500, green.300)"  // Active: Green Gradient
-        : "linear(to-r, gray.500, gray.300)"}  // Inactive: Blue Gradient
+        ? "linear(to-r, green.500, green.300)" 
+        : "linear(to-r, gray.500, gray.300)"}  
         color="white"
         p={2}
         borderRadius="md"

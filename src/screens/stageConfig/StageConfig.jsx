@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ServicesSidebar from "./components/ServicesSidebar";
 import StagesContainer from "./components/StagesContainer";
+import StageTimeline from "./components/StageTimeline";
 
 /**
  * ServicesDashboard component for managing service stages configuration
@@ -23,11 +24,14 @@ export default function ServicesDashboard() {
 
   /** @type {Array<{id: number, name: string, detail: string, services: Array}>} State for managing stages */
   const [stages, setStages] = useState([
-    { id: 1, name: "Stage 1", detail: "Details here", services: [] }
+    { id: 1, name: "Stage 1", detail: "", services: [], phase: "Origin Phase", icon: "FaSeedling" }
   ]);
 
   /** @type {boolean} State to track if a service is being dragged */
   const [isDraggingService, setIsDraggingService] = useState(false);
+
+  /** @type {number} State to track current stage */
+  const [currentStage, setCurrentStage] = useState(1);
 
   const toast = useToast();
 
@@ -178,8 +182,10 @@ export default function ServicesDashboard() {
     setStages([...stages, {
       id: newStageId,
       name: `Stage ${newStageId}`,
-      detail: "Details here",
-      services: []
+      detail: "",
+      services: [],
+      phase: "Origin Phase",
+      icon: "FaSeedling"
     }]);
   };
 
@@ -195,8 +201,10 @@ export default function ServicesDashboard() {
     newStages.splice(afterStageIndex + 1, 0, {
       id: newStageId,
       name: `Stage ${newStageId}`,
-      detail: "Details here",
-      services: []
+      detail: "",
+      services: [],
+      phase: "Origin Phase",
+      icon: "FaSeedling"
     });
 
     setStages(newStages);
@@ -240,19 +248,26 @@ export default function ServicesDashboard() {
         w="100vw"
         overflow="hidden"
         bg="gray.100"
+        direction="column"
       >
-        <ServicesSidebar services={services} />
-        <StagesContainer
-          stages={stages}
-          updateStageName={updateStageName}
-          updateStageDetail={updateStageDetail}
-          removeService={removeService}
-          addStageAfter={addStageAfter}
-          removeStage={removeStage}
-          addStage={addStage}
-          onSave={handleSave}
-          isDraggingService={isDraggingService}
-        />
+       
+
+        <Flex flex={1} overflow="hidden">
+          <ServicesSidebar services={services} />
+          <StagesContainer
+            currentStage={currentStage}
+            setCurrentStage={setCurrentStage}
+            stages={stages}
+            updateStageName={updateStageName}
+            updateStageDetail={updateStageDetail}
+            removeService={removeService}
+            addStageAfter={addStageAfter}
+            removeStage={removeStage}
+            addStage={addStage}
+            onSave={handleSave}
+            isDraggingService={isDraggingService}
+          />
+        </Flex>
       </Flex>
     </DragDropContext>
   );

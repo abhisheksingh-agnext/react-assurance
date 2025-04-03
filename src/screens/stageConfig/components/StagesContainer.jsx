@@ -2,11 +2,14 @@ import { Box, Flex, Text, IconButton, Heading, Button } from "@chakra-ui/react";
 import { Droppable } from "@hello-pangea/dnd";
 import { AddIcon, CheckIcon } from "@chakra-ui/icons";
 import StageWidget from "./StageWidget";
+import StageTimeline from "./StageTimeline";
 
 /**
  * StagesContainer component that displays the horizontal scrollable container for stages
  * @param {Object} props - Component props
  * @param {Array} props.stages - Array of stage objects
+ * @param {number} props.currentStage - Current active stage
+ * @param {Function} props.setCurrentStage - Function to set the current stage
  * @param {Function} props.updateStageName - Function to update stage name
  * @param {Function} props.updateStageDetail - Function to update stage details
  * @param {Function} props.removeService - Function to remove a service from a stage
@@ -18,6 +21,8 @@ import StageWidget from "./StageWidget";
  * @returns {JSX.Element} The StagesContainer component
  */
 export default function StagesContainer({
+  currentStage,
+  setCurrentStage,
   stages,
   updateStageName,
   updateStageDetail,
@@ -64,6 +69,12 @@ export default function StagesContainer({
           </Flex>
         </Flex>
 
+          {/* Timeline View */}
+          <StageTimeline 
+            stages={stages} 
+            currentStage={currentStage} 
+          />
+
         {/* Scroll indicator */}
         {stages.length > 1 && (
           <Text fontSize="sm" color="gray.500" mb={2} alignSelf="flex-end" textAlign="right" width="full">
@@ -72,6 +83,8 @@ export default function StagesContainer({
         )}
       </Box>
 
+ 
+    
       {/* Horizontal Scrollable Container for Stages */}
       <Box
         w="full"
@@ -123,6 +136,7 @@ export default function StagesContainer({
                   addStageAfter={addStageAfter}
                   removeStage={removeStage}
                   isDraggingService={isDraggingService}
+                  onClick={() => setCurrentStage(stage.id)}
                 />
               ))}
               {provided.placeholder}

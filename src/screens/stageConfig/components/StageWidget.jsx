@@ -13,6 +13,7 @@ import { AddIcon, CloseIcon, DragHandleIcon } from "@chakra-ui/icons";
  * @param {Function} props.addStageAfter - Function to add a new stage after this one
  * @param {Function} props.removeStage - Function to remove this stage
  * @param {boolean} props.isDraggingService - Flag indicating if a service is being dragged
+ * @param {Function} props.onClick - Function to handle stage click
  * @returns {JSX.Element} The StageWidget component
  */
 export default function StageWidget({
@@ -23,7 +24,8 @@ export default function StageWidget({
   removeService,
   addStageAfter,
   removeStage,
-  isDraggingService
+  isDraggingService,
+  onClick
 }) {
   return (
     <Draggable
@@ -45,7 +47,7 @@ export default function StageWidget({
           mr={6}
           mb={2}
           position="relative"
-          transition="box-shadow 0.2s"
+          transition="all 0.2s"
           _hover={{
             boxShadow: "lg"
           }}
@@ -53,6 +55,8 @@ export default function StageWidget({
           maxH="80vh"
           display="flex"
           flexDirection="column"
+          onClick={onClick}
+          cursor="pointer"
         >
           {/* Stage Control Buttons */}
           <IconButton
@@ -80,7 +84,10 @@ export default function StageWidget({
             top={2}
             right={2}
             zIndex={2}
-            onClick={() => removeStage(stage.id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              removeStage(stage.id);
+            }}
             _hover={{ bg: "red.500" }}
             title="Remove stage"
           />
@@ -88,9 +95,7 @@ export default function StageWidget({
           {/* Stage Header */}
           <Box
             {...provided.dragHandleProps}
-            bgGradient={
-             "linear(to-br, gray.500, gray.300)"  
-            }
+            bgGradient="linear(to-br, gray.500, gray.300)"
             color="white"
             p={4}
             fontWeight="bold"
