@@ -5,6 +5,7 @@ import Signup from "./screens/SignupScreen";
 import Home from "./screens/HomeScreen";
 import PostApiInt from "./screens/PostApiInt";
 import ServicesDashboard from "./screens/stageConfig/StageConfig";
+import StagePreviewScreen from "./screens/stagePreview/StagePreviewScreen";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 
@@ -20,6 +21,7 @@ export default function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/home" element={<Home />} />
           <Route path="/servicesDashboard" element={<ServicesDashboard />} />
+          <Route path="/stage-preview" element={<StagePreviewScreen />} />
 
           //Experiment
           <Route path="/postApi" element={<PostApiInt />} />

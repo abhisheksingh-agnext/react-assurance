@@ -1,7 +1,7 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, useToast } from "@chakra-ui/react";
 import { DragDropContext } from "@hello-pangea/dnd";
 import { useState } from "react";
-import { useToast } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import ServicesSidebar from "./components/ServicesSidebar";
 import StagesContainer from "./components/StagesContainer";
 
@@ -11,6 +11,7 @@ import StagesContainer from "./components/StagesContainer";
  * @returns {JSX.Element} The ServicesDashboard component
  */
 export default function ServicesDashboard() {
+  const navigate = useNavigate();
   /** @type {Array<{id: string, name: string}>} List of available services */
   const services = [
     { id: "1", name: "Farming inspection" },
@@ -22,7 +23,7 @@ export default function ServicesDashboard() {
 
   /** @type {Array<{id: number, name: string, detail: string, services: Array}>} State for managing stages */
   const [stages, setStages] = useState([
-    { id: 1, name: "Stage 1", detail: "", services: [] }
+    { id: 1, name: "Stage 1", detail: "Details here", services: [] }
   ]);
 
   /** @type {boolean} State to track if a service is being dragged */
@@ -39,6 +40,31 @@ export default function ServicesDashboard() {
       isClosable: true,
       position: "top"
     });
+  };
+
+  /**
+   * Handles saving the stage configuration
+   */
+  const handleSave = () => {
+    // Validate stages
+    const invalidStages = stages.filter(stage => !stage.name.trim());
+    if (invalidStages.length > 0) {
+      toast({
+        title: "Validation Error",
+        description: "All stages must have a name",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top"
+      });
+      return;
+    }
+
+    // Store stages in localStorage or context/state management if needed
+    localStorage.setItem('configuredStages', JSON.stringify(stages));
+    
+    // Navigate to the preview screen
+    navigate('/stage-preview');
   };
 
   /**
@@ -152,7 +178,7 @@ export default function ServicesDashboard() {
     setStages([...stages, {
       id: newStageId,
       name: `Stage ${newStageId}`,
-      detail: "",
+      detail: "Details here",
       services: []
     }]);
   };
@@ -169,7 +195,7 @@ export default function ServicesDashboard() {
     newStages.splice(afterStageIndex + 1, 0, {
       id: newStageId,
       name: `Stage ${newStageId}`,
-      detail: "",
+      detail: "Details here",
       services: []
     });
 
@@ -224,6 +250,7 @@ export default function ServicesDashboard() {
           addStageAfter={addStageAfter}
           removeStage={removeStage}
           addStage={addStage}
+          onSave={handleSave}
           isDraggingService={isDraggingService}
         />
       </Flex>

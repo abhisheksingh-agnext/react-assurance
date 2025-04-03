@@ -9,7 +9,7 @@ import { Droppable, Draggable } from "@hello-pangea/dnd";
  */
 export default function ServicesSidebar({ services }) {
   return (
-    <Box w="250px" bg="blue.600" color="white" p={5} boxShadow="lg" display="flex" flexDirection="column" height="100%">
+    <Box w="250px"  bgGradient={ "linear(to-br, gray.500, gray.300)"  } color="white" p={5} boxShadow="lg" display="flex" flexDirection="column" height="100%">
       <Text fontSize="2xl" fontWeight="bold" mb={4} textAlign="center">
         Services
       </Text>
@@ -41,7 +41,7 @@ export default function ServicesSidebar({ services }) {
               {...provided.droppableProps}
               spacing={4}
               align="stretch"
-              bg={snapshot.isDraggingOver ? "blue.700" : "transparent"}
+              bg={snapshot.isDraggingOver ? "gray.700" : "transparent"}
               borderRadius="md"
               transition="background 0.2s"
               p={snapshot.isDraggingOver ? 2 : 0}
@@ -55,10 +55,10 @@ export default function ServicesSidebar({ services }) {
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                       p={3}
-                      bg={snapshot.isDragging ? "green.500" : "blue.500"}
+                      bg={snapshot.isDragging ? "gray.500" : "gray.500"}
                       borderRadius="md"
                       boxShadow={snapshot.isDragging ? "lg" : "md"}
-                      _hover={{ bg: "blue.700" }}
+                      _hover={{ bg: "gray.700" }}
                       cursor="grab"
                       transform={snapshot.isDragging ? "scale(1.05)" : "scale(1)"}
                       transition="all 0.2s"

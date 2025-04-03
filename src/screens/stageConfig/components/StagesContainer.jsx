@@ -1,6 +1,6 @@
-import { Box, Flex, Text, IconButton, Heading } from "@chakra-ui/react";
+import { Box, Flex, Text, IconButton, Heading, Button } from "@chakra-ui/react";
 import { Droppable } from "@hello-pangea/dnd";
-import { AddIcon } from "@chakra-ui/icons";
+import { AddIcon, CheckIcon } from "@chakra-ui/icons";
 import StageWidget from "./StageWidget";
 
 /**
@@ -13,6 +13,7 @@ import StageWidget from "./StageWidget";
  * @param {Function} props.addStageAfter - Function to add a new stage after a specified stage
  * @param {Function} props.removeStage - Function to remove a stage
  * @param {Function} props.addStage - Function to add a new stage
+ * @param {Function} props.onSave - Function to handle saving the configuration
  * @param {boolean} props.isDraggingService - Flag indicating if a service is being dragged
  * @returns {JSX.Element} The StagesContainer component
  */
@@ -24,6 +25,7 @@ export default function StagesContainer({
   addStageAfter,
   removeStage,
   addStage,
+  onSave,
   isDraggingService
 }) {
   return (
@@ -39,15 +41,27 @@ export default function StagesContainer({
       <Box w="full" mb={4}>
         <Flex w="full" justify="space-between" align="center" mb={4}>
           <Heading size="lg" color="gray.700">Stage Configuration</Heading>
-          <IconButton
-            icon={<AddIcon />}
-            colorScheme="blue"
-            size="md"
-            aria-label="Add stage"
-            onClick={addStage}
-            _hover={{ bg: "blue.600" }}
-            title="Add Stage" 
-          />
+          <Flex gap={3}>
+            <Button
+              leftIcon={<CheckIcon />}
+              colorScheme="green"
+              size="md"
+              onClick={onSave}
+              _hover={{ bg: "green.600" }}
+              title="Save Configuration"
+            >
+              Save Changes
+            </Button>
+            <IconButton
+              icon={<AddIcon />}
+              colorScheme="blue"
+              size="md"
+              aria-label="Add stage"
+              onClick={addStage}
+              _hover={{ bg: "blue.600" }}
+              title="Add Stage"
+            />
+          </Flex>
         </Flex>
 
         {/* Scroll indicator */}

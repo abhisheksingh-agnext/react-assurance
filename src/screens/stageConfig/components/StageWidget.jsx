@@ -88,7 +88,9 @@ export default function StageWidget({
           {/* Stage Header */}
           <Box
             {...provided.dragHandleProps}
-            bg="blue.600"
+            bgGradient={
+             "linear(to-br, gray.500, gray.300)"  
+            }
             color="white"
             p={4}
             fontWeight="bold"
