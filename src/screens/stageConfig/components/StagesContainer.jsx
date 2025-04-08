@@ -4,6 +4,11 @@ import { AddIcon, CheckIcon } from "@chakra-ui/icons";
 import StageWidget from "./StageWidget";
 import StageTimeline from "./StageTimeline";
 
+{/* 
+2 Views in this screen
+<ServicesSidebar 
+<StagesContainer */}
+
 /**
  * StagesContainer component that displays the horizontal scrollable container for stages
  * @param {Object} props - Component props
@@ -40,8 +45,25 @@ export default function StagesContainer({
       direction="column"
       align="center"
       bg="white"
-      overflow="hidden"
+      overflow="auto"
       height="100%"
+      css={{
+        '&::-webkit-scrollbar': {
+          width: '8px',
+          borderRadius: '8px',
+          backgroundColor: 'rgba(0, 0, 0, 0.05)',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          backgroundColor: 'rgba(0, 0, 0, 0.2)',
+          borderRadius: '8px',
+        },
+        '&::-webkit-scrollbar-thumb:hover': {
+          backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        },
+        '-ms-overflow-style': 'none',
+        'scrollbarWidth': 'thin',
+        'scrollbarColor': 'rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.05)',
+      }}
     >
       <Box w="full" mb={4}>
         <Flex w="full" justify="space-between" align="center" mb={4}>
@@ -69,11 +91,11 @@ export default function StagesContainer({
           </Flex>
         </Flex>
 
-          {/* Timeline View */}
-          <StageTimeline 
-            stages={stages} 
-            currentStage={currentStage} 
-          />
+        {/* Timeline View */}
+        <StageTimeline 
+          stages={stages} 
+          currentStage={currentStage} 
+        />
 
         {/* Scroll indicator */}
         {stages.length > 1 && (
@@ -83,8 +105,6 @@ export default function StagesContainer({
         )}
       </Box>
 
- 
-    
       {/* Horizontal Scrollable Container for Stages */}
       <Box
         w="full"

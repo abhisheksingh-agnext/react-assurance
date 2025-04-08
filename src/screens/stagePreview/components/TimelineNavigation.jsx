@@ -6,6 +6,7 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import { CheckIcon } from "@chakra-ui/icons";
+import * as FaIcons from "react-icons/fa";
 
 /**
  * Timeline navigation component displays the progress bar and stage icons
@@ -18,6 +19,11 @@ import { CheckIcon } from "@chakra-ui/icons";
 const TimelineNavigation = ({ stages, currentStep, onStepChange }) => {
   // Calculate progress percentage
   const progressPercentage = ((currentStep - 1) / (stages.length - 1)) * 100;
+
+  // Get icon component from string name
+  const getIconComponent = (iconName) => {
+    return FaIcons[iconName] || FaIcons.FaCircle;
+  };
 
   return (
     <Box mb={8} mt={4} px={6}>
@@ -61,38 +67,41 @@ const TimelineNavigation = ({ stages, currentStep, onStepChange }) => {
                     ? "linear(to-br, green.500, green.300)"
                     : "linear(to-br, gray.400, gray.300)"  
                 }
-               
                 rounded="full"
                 color="white"
                 mb={2}
                 position="relative"
                 transition="background-color 0.3s ease"
-                aspectRatio={1}  // Ensures it remains a perfect circle
+                aspectRatio={1}
                 w={10}  
                 h={10}  
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
               >
-                <Icon as={stage.icon} boxSize={4} />
+                <Icon as={getIconComponent(stage.icon)} boxSize={4} />
 
                 {/* Small checkmark badge */}
-                <Box
-                  position="absolute"
-                  bg="green.500"
-                  w="18px"
-                  h="18px"
-                  rounded="full"
-                  top={-1}
-                  right={-1}
-                  borderWidth={2}
-                  borderColor="white"
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                >
-                  <CheckIcon color="white" fontSize="10px" />
-                </Box>
+                {currentStep > stage.id && (
+                  <Box
+                    position="absolute"
+                    bg="green.500"
+                    w="18px"
+                    h="18px"
+                    rounded="full"
+                    top={-1}
+                    right={-1}
+                    borderWidth={2}
+                    borderColor="white"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    <CheckIcon color="white" fontSize="10px" />
+                  </Box>
+
+                  
+                )}
               </Box>
 
               <Text
@@ -103,7 +112,6 @@ const TimelineNavigation = ({ stages, currentStep, onStepChange }) => {
               >
                 {stage.name}
               </Text>
-
             </Flex>
           ))}
         </Flex>

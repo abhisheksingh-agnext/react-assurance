@@ -1,10 +1,17 @@
 import { Flex, useToast } from "@chakra-ui/react";
 import { DragDropContext } from "@hello-pangea/dnd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ServicesSidebar from "./components/ServicesSidebar";
 import StagesContainer from "./components/StagesContainer";
 import StageTimeline from "./components/StageTimeline";
+import { FaSeedling, FaWarehouse, FaShip, FaIndustry, FaStore, FaUsers, FaCheckCircle } from "react-icons/fa";
+
+
+{/* 
+2 Views in this screen
+<ServicesSidebar 
+<StagesContainer */}
 
 /**
  * ServicesDashboard component for managing service stages configuration
@@ -22,10 +29,84 @@ export default function ServicesDashboard() {
     { id: "5", name: "Commodity Analysis" },
   ];
 
+  const initialStagesData = [
+    {
+      id: 1,
+      name: "Farm Inspection",
+      detail: "Initial inspection of avocado farms",
+      services: [],
+      phase: "Origin Phase",
+      icon: "FaSeedling",
+      location: "Farm Location",
+      mapUrl: "https://www.openstreetmap.org/export/embed.html?bbox=-74.006,40.707,-73.997,40.715&layer=mapnik"
+    },
+    {
+      id: 2,
+      name: "Storage & Processing",
+      detail: "Storage and initial processing of harvested avocados",
+      services: [],
+      phase: "Processing Phase",
+      icon: "FaWarehouse",
+      location: "Warehouse Location",
+      mapUrl: "https://www.openstreetmap.org/export/embed.html?bbox=-74.006,40.707,-73.997,40.715&layer=mapnik"
+    },
+    {
+      id: 3,
+      name: "Export Preparation",
+      detail: "Preparation for international shipping",
+      services: [],
+      phase: "Shipping Phase",
+      icon: "FaShip",
+      location: "Port Location",
+      mapUrl: "https://www.openstreetmap.org/export/embed.html?bbox=-74.006,40.707,-73.997,40.715&layer=mapnik"
+    },
+    {
+      id: 4,
+      name: "Import Processing",
+      detail: "Processing at import destination",
+      services: [],
+      phase: "Import Phase",
+      icon: "FaIndustry",
+      location: "Import Facility",
+      mapUrl: "https://www.openstreetmap.org/export/embed.html?bbox=-74.006,40.707,-73.997,40.715&layer=mapnik"
+    },
+    {
+      id: 5,
+      name: "Distribution Center",
+      detail: "Distribution to local retailers",
+      services: [],
+      phase: "Distribution Phase",
+      icon: "FaStore",
+      location: "Distribution Center",
+      mapUrl: "https://www.openstreetmap.org/export/embed.html?bbox=-74.006,40.707,-73.997,40.715&layer=mapnik"
+    },
+    {
+      id: 6,
+      name: "Retail Outlets",
+      detail: "Final retail distribution points",
+      services: [],
+      phase: "Retail Phase",
+      icon: "FaUsers",
+      location: "Retail Locations",
+      mapUrl: "https://www.openstreetmap.org/export/embed.html?bbox=-74.006,40.707,-73.997,40.715&layer=mapnik"
+    },
+    {
+      id: 7,
+      name: "Quality Verification",
+      detail: "Final quality checks and verification",
+      services: [],
+      phase: "Verification Phase",
+      icon: "FaCheckCircle",
+      location: "Quality Center",
+      mapUrl: "https://www.openstreetmap.org/export/embed.html?bbox=-74.006,40.707,-73.997,40.715&layer=mapnik"
+    }
+  ];
+
   /** @type {Array<{id: number, name: string, detail: string, services: Array}>} State for managing stages */
-  const [stages, setStages] = useState([
-    { id: 1, name: "Stage 1", detail: "", services: [], phase: "Origin Phase", icon: "FaSeedling" }
-  ]);
+  const [stages, setStages] = useState(() => {
+    const savedStages = localStorage.getItem('configuredStages');
+    return savedStages ? JSON.parse(savedStages) : initialStagesData;
+  });
 
   /** @type {boolean} State to track if a service is being dragged */
   const [isDraggingService, setIsDraggingService] = useState(false);
@@ -66,6 +147,9 @@ export default function ServicesDashboard() {
 
     // Store stages in localStorage or context/state management if needed
     localStorage.setItem('configuredStages', JSON.stringify(stages));
+    
+    // Log the saved configuration
+    console.log('Saved Configuration Stages:', stages);
     
     // Navigate to the preview screen
     navigate('/stage-preview');
@@ -244,15 +328,19 @@ export default function ServicesDashboard() {
     <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
       <Flex
         minH="100vh"
-        h="100vh"
         w="100vw"
-        overflow="hidden"
         bg="gray.100"
         direction="column"
+        overflow="hidden"
       >
-       
+      
 
-        <Flex flex={1} overflow="hidden">
+        {/* Main Content Area */}
+        <Flex 
+          flex={1} 
+          overflow="hidden"
+          position="relative"
+        >
           <ServicesSidebar services={services} />
           <StagesContainer
             currentStage={currentStage}

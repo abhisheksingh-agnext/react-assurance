@@ -6,58 +6,64 @@ import {
 import StageCard from "./StageCard";
 
 /**
- * Stage cards container component for displaying all stage cards
+ * StageCardsContainer component that displays all stage cards in a container
  * @param {Object} props - Component props
  * @param {Array} props.stages - Array of stage data
  * @param {number} props.currentStep - Current active step
- * @param {Function} props.onMapClick - Function to handle map preview click
- * @param {React.RefObject} props.containerRef - Reference to the container element
- * @returns {JSX.Element} Stage cards container component
+ * @param {Function} props.onMapClick - Function to handle map preview clicks
+ * @param {Object} props.containerRef - Reference to the container element
+ * @returns {JSX.Element} The StageCardsContainer component
  */
-const StageCardsContainer = ({ stages, currentStep, onMapClick, containerRef }) => (
-  <Box 
-    ref={containerRef}
-    overflowX="auto"
-    overflowY="visible"
-    whiteSpace="nowrap"
-    flex="1"
-    css={{
-      '&::-webkit-scrollbar': {
-        height: '8px',
-      },
-      '&::-webkit-scrollbar-track': {
-        background: '#f1f1f1',
-        borderRadius: '10px',
-      },
-      '&::-webkit-scrollbar-thumb': {
-        background: '#888',
-        borderRadius: '10px',
-      },
-      '&::-webkit-scrollbar-thumb:hover': {
-        background: '#555',
-      },
-    }}
-    pb={4}
-    px={6}
-    pt={8}
-  >
-    <Flex 
-      display="inline-flex" 
-      minW="100%" 
-      spacing={6}
-      pb={2}
-      position="relative"
+export default function StageCardsContainer({
+  stages,
+  currentStep,
+  onMapClick,
+  containerRef
+}) {
+  return (
+    <Box
+      ref={containerRef}
+      w="full"
+      overflowX="auto"
+      overflowY="hidden"
+      pb={6}
+      flex="1"
+      css={{
+        '&::-webkit-scrollbar': {
+          height: '8px',
+          borderRadius: '8px',
+          backgroundColor: 'rgba(0, 0, 0, 0.05)',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          backgroundColor: 'rgba(0, 0, 0, 0.2)',
+          borderRadius: '8px',
+        },
+        '&::-webkit-scrollbar-thumb:hover': {
+          backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        },
+        '-ms-overflow-style': 'none',
+        'scrollbarWidth': 'thin',
+        'scrollbarColor': 'rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.05)',
+      }}
     >
-      {stages.map((stage) => (
-        <StageCard 
-          key={stage.id}
-          stage={stage}
-          isActive={currentStep === stage.id}
-          onMapClick={onMapClick}
-        />
-      ))}
-    </Flex>
-  </Box>
-);
-
-export default StageCardsContainer; 
+      <Flex
+        direction="row"
+        minW="max-content"
+        p={2}
+        align="flex-start"
+        height="100%"
+        gap={8}
+        px={8}
+      >
+        {stages.map((stage) => (
+          <StageCard
+            key={stage.id}
+            stage={stage}
+            isActive={currentStep === stage.id}
+            onMapClick={onMapClick}
+          />
+        ))}
+      </Flex>
+    </Box>
+  );
+} 
